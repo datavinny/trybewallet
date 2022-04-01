@@ -1,5 +1,3 @@
-import { useDebugValue } from 'react/cjs/react.production.min';
-
 // Esse reducer será responsável por tratar o todas as informações relacionadas as despesas
 const INITIAL_STATE = {
   currencies: [],
