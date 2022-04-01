@@ -1,16 +1,26 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
-import { walletAction } from '../actions/index';
+import { walletAction, expensesAction } from '../actions/index';
 
 class Wallet extends React.Component {
   constructor() {
     super();
 
     this.state = {
-      expenses: 0,
-      currencie: 'BRL',
+      id: 0,
+      value: 0,
+      description: '',
+      currency: 'USD',
+      method: 'Dinheiro',
+      tag: 'Alimentação',
+      isTimeToClean: false,
+      total: 0,
     };
+    this.enviarDespesas = this.enviarDespesas.bind(this);
+    this.saveState = this.saveState.bind(this);
+    this.cleanInputExpenses = this.cleanInputExpenses.bind(this);
+    this.somarDespesas = this.somarDespesas.bind(this);
   }
 
   componentDidMount() {
@@ -18,12 +28,69 @@ class Wallet extends React.Component {
     myDispatch(walletAction());
   }
 
+  saveState({ target }) {
+    const { id, value } = target;
+    switch (id) {
+    case 'value':
+      this.setState({ value });
+      break;
+    case 'description':
+      this.setState({ description: value });
+      break;
+    case 'currency':
+      this.setState({ currency: value });
+      break;
+    case 'method':
+      this.setState({ method: value });
+      break;
+    case 'tag':
+      this.setState({ tag: value });
+      break;
+    default:
+      break;
+    }
+  }
+
+  async enviarDespesas({ target }) {
+    const { sendExpenses } = this.props;
+    const { id, value, description, currency, method, tag } = this.state;
+    await sendExpenses({ id, value, description, currency, method, tag });
+    const index = id + 1;
+    const inputExpenses = target.parentElement.childNodes[1].childNodes[1].childNodes[1];
+    this.setState({ id: index,
+      isTimeToClean: true },
+    () => this.cleanInputExpenses(inputExpenses));
+    this.somarDespesas();
+  }
+
+  cleanInputExpenses(inputExpenses) {
+    const { isTimeToClean } = this.state;
+    if (isTimeToClean === true) {
+      inputExpenses.value = '';
+      this.setState({ isTimeToClean: false });
+    }
+  }
+
+  somarDespesas() {
+    const { expenses } = this.props;
+    let armazem = 0;
+    expenses.forEach((objDespesa) => {
+      const { value } = objDespesa;
+      const { ask } = objDespesa.exchangeRates[objDespesa.currency];
+      // console.log('value:', value, 'ask:', ask);
+      armazem += value * ask;
+      return armazem;
+    });
+    const total = Number.parseFloat(armazem).toFixed(2);
+    this.setState({ total });
+  }
+
   render() {
-    const { expenses, currencie } = this.state;
+    const { total } = this.state;
     const { email, currencies } = this.props;
     return (
       <div className="App">
-        <header className="App-header">
+        <header>
           <p
             data-testid="email-field"
           >
@@ -33,41 +100,40 @@ class Wallet extends React.Component {
           <p
             data-testid="total-field"
           >
-            Despesa Total:
-            { expenses }
+            { total }
           </p>
           <p
             data-testid="header-currency-field"
           >
-            { currencie }
+            BRL
           </p>
         </header>
         <div>
           <p>TrybeWallet</p>
-          <label htmlFor="valor">
+          <label htmlFor="value" onChange={ this.saveState }>
             Valor:
-            <input type="number" id="valor" data-testid="value-input" />
+            <input type="number" id="value" data-testid="value-input" />
           </label>
-          <label htmlFor="description">
+          <label htmlFor="description" onChange={ this.saveState }>
             Description:
             <input type="text" id="description" data-testid="description-input" />
           </label>
-          <label htmlFor="moeda">
+          <label htmlFor="currency" onChange={ this.saveState }>
             Moeda:
-            <select id="moeda">
+            <select id="currency" data-testid="currency-input">
               {currencies.map((element, index) => (
                 <option value={ element } key={ index }>{element}</option>
               ))}
             </select>
           </label>
-          <label htmlFor="method">
+          <label htmlFor="method" onChange={ this.saveState }>
             <select id="method" data-testid="method-input">
               <option value="Dinheiro">Dinheiro</option>
-              <option value="Crédito">Cartão de crédito</option>
-              <option value="Débito">Cartão de débito</option>
+              <option value="Cartão de crédito">Cartão de crédito</option>
+              <option value="Cartão de débito">Cartão de débito</option>
             </select>
           </label>
-          <label htmlFor="tag">
+          <label htmlFor="tag" onChange={ this.saveState }>
             <select id="tag" data-testid="tag-input">
               <option value="Alimentação">Alimentação</option>
               <option value="Lazer">Lazer</option>
@@ -77,6 +143,7 @@ class Wallet extends React.Component {
             </select>
           </label>
         </div>
+        <button type="submit" onClick={ this.enviarDespesas }>Adicionar despesa</button>
       </div>);
   }
 }
@@ -95,6 +162,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   myDispatch: () => dispatch(walletAction()),
+  sendExpenses: (state) => dispatch(expensesAction(state)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);

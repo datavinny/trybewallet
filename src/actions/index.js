@@ -18,8 +18,24 @@ function walletAction() {
     dispatch(requestCurrency());
     return fetch('https://economia.awesomeapi.com.br/json/all')
       .then((response) => response.json())
-      .then((currency) => dispatch(receiveCurrency(currency)));
+      .then((exchangeRates) => dispatch(receiveCurrency(exchangeRates)));
   };
 }
 
-export { emailAction, requestCurrency, receiveCurrency, walletAction };
+const addExpenses = (payload, exchangeRates) => ({
+  type: 'ADD_EXPENSES',
+  payload,
+  exchangeRates,
+});
+
+function expensesAction(state) {
+  return (dispatch) => {
+    dispatch(requestCurrency());
+    return fetch('https://economia.awesomeapi.com.br/json/all')
+      .then((response) => response.json())
+      .then((exchangeRates) => dispatch(addExpenses(state, exchangeRates)));
+  };
+}
+export { emailAction,
+  requestCurrency,
+  receiveCurrency, walletAction, addExpenses, expensesAction };

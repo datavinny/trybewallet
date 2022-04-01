@@ -5,7 +5,7 @@ const INITIAL_STATE = {
 };
 
 function wallet(state = INITIAL_STATE, action) {
-  const { payload } = action;
+  const { payload, exchangeRates } = action;
   switch (action.type) {
   case 'REQUEST_CURRENCY':
     return state;
@@ -13,8 +13,11 @@ function wallet(state = INITIAL_STATE, action) {
     return (
       { ...state,
         currencies: [payload.USD.code, ...Object.keys(payload).slice(2)],
-        expenses: [] }
+      }
     );
+  case 'ADD_EXPENSES':
+    delete exchangeRates.USDT;
+    return ({ ...state, expenses: [...state.expenses, { ...payload, exchangeRates }] });
   default:
     return state;
   }
