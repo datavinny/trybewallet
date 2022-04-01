@@ -88,7 +88,7 @@ class Wallet extends React.Component {
 
   render() {
     const { total } = this.state;
-    const { email, currencies } = this.props;
+    const { email, currencies, expenses } = this.props;
     return (
       <div className="App">
         <header>
@@ -145,7 +145,7 @@ class Wallet extends React.Component {
           </label>
         </div>
         <button type="submit" onClick={ this.enviarDespesas }>Adicionar despesa</button>
-        <Tabela />
+        <Tabela expenses={ expenses }/>
       </div>);
   }
 }
