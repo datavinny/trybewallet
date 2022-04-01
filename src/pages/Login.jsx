@@ -62,7 +62,7 @@ class Login extends Component {
   render() {
     const { isButtonDisable } = this.state;
     return (
-      <div>
+      <div className="App">
         <input type="email" data-testid="email-input" onChange={ this.verifyEmail } />
         <input
           type="password"
