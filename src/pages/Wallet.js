@@ -145,7 +145,7 @@ class Wallet extends React.Component {
           </label>
         </div>
         <button type="submit" onClick={ this.enviarDespesas }>Adicionar despesa</button>
-        <Tabela expenses={ expenses }/>
+        <Tabela expenses={ expenses } />
       </div>);
   }
 }

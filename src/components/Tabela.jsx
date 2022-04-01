@@ -29,7 +29,9 @@ class Tabela extends Component {
                 <td>{obj.method}</td>
                 <td>{Number.parseFloat(obj.value).toFixed(2)}</td>
                 <td>{obj.exchangeRates[obj.currency].name}</td>
-                <td>{Number.parseFloat(obj.exchangeRates[obj.currency].ask).toFixed(2)}</td>
+                <td>
+                  {Number.parseFloat(obj.exchangeRates[obj.currency].ask).toFixed(2)}
+                </td>
                 <td>{obj.value * obj.exchangeRates[obj.currency].ask}</td>
                 <td>Real</td>
                 <td>
