@@ -35,24 +35,9 @@ Neste projeto, foi testado habilidades de:
 
 ## Para testar/contribuir no Projeto
 
-### Instalando Dependências
+### Instalando Dependências e Executando aplicação
 
 > Frontend
 ```bash
 cd src/ && npm install
 ``` 
-### Executando aplicação
-
-* Para rodar o front-end:
-
-  ```
-    cd src/ && npm start
-  ```
-
-### Executando Testes
-
-* Para rodar todos os testes:
-
-  ```
-    npm test
-  ```
