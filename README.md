@@ -25,13 +25,8 @@ Neste projeto, foi testado habilidades de:
 - Conectar Redux aos componentes React
 - Criar actions assíncronas na sua aplicação React que faz uso de Redux.
 
-### Data de entrega
-
-- Projeto individual;
-- Foram 3 dias de projeto;
-
 ## Creditos
-- Eu (@datavinny)
+- Davi Freitas (@datavinny)
 
 ## Para testar/contribuir no Projeto
 
