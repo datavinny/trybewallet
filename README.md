@@ -3,7 +3,7 @@
 # Contexto
 Este projeto foi feito enquanto estudava na @betrybe.
 
-Neste projeto foi desenvolvido uma carteira de controle de gastos com conversor de moedas, ao utilizar essa aplicação um usuário deverá ser capaz de:
+Neste projeto foi desenvolvido uma carteira de controle de gastos com conversor de moedas, recursos:
 
 - Adicionar, remover e editar um gasto;
 - Visualizar uma tabelas com seus gastos;
@@ -12,7 +12,7 @@ Neste projeto foi desenvolvido uma carteira de controle de gastos com conversor 
 ## Técnologias usadas
 
 Front-end:
-> Desenvolvido usando: React, Redux, CSS3, HTML5, ES6
+> Desenvolvido usando: React, Redux, ES6
 
 ## Habilidades
 
